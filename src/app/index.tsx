@@ -40,8 +40,6 @@ export default function Inicio() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-
-      {/* PORTADA PRINCIPAL */}
       <View style={styles.hero}>
         <Image
           source={{
@@ -65,8 +63,6 @@ export default function Inicio() {
           </Text>
         </View>
       </View>
-
-      {/* BIENVENIDA */}
       <View style={styles.saludoBox}>
         <View>
           <Text style={styles.saludoTitulo}>
@@ -83,7 +79,7 @@ export default function Inicio() {
         </View>
       </View>
 
-      {/* RESUMEN */}
+      
       <View style={styles.resumen}>
 
         <View style={styles.resumenItem}>
@@ -111,10 +107,10 @@ export default function Inicio() {
         ¿Qué deseas hacer?
       </Text>
 
-      {/* TRES BOTONES ALINEADOS */}
+      
       <View style={styles.botonesContainer}>
 
-        {/* BOTÓN 1 - OPCIONMENU */}
+        {/* BOTÓN 1 */}
         <View style={styles.botonPrincipal}>
           <OpcionMenu
             icono="📝"
@@ -124,7 +120,7 @@ export default function Inicio() {
           />
         </View>
 
-        {/* BOTÓN 2 - PRESSABLE */}
+        {/* BOTÓN 2 */}
         <Pressable
           style={styles.botonSimple}
           onPress={() => router.push("/imagenes")}
@@ -146,7 +142,7 @@ export default function Inicio() {
           </Text>
         </Pressable>
 
-        {/* BOTÓN 3 - PRESSABLE */}
+        {/* BOTÓN 3*/}
         <Pressable
           style={styles.botonSimple}
           onPress={() => router.push("/contacto")}
@@ -170,7 +166,7 @@ export default function Inicio() {
 
       </View>
 
-      {/* DESTACADO */}
+      
       <View style={styles.destacado}>
 
         <View style={styles.destacadoIcono}>
@@ -208,7 +204,7 @@ const styles = StyleSheet.create({
     padding: 18,
   },
 
-  /* PORTADA */
+  
 
   hero: {
     height: 280,
@@ -253,7 +249,7 @@ const styles = StyleSheet.create({
     lineHeight: 21,
   },
 
-  /* SALUDO */
+  
 
   saludoBox: {
     backgroundColor: "#FFFFFF",
@@ -291,7 +287,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 
-  /* RESUMEN */
+
 
   resumen: {
     backgroundColor: "#FFFFFF",
@@ -327,7 +323,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#D9E2EC",
   },
 
-  /* TITULO */
+  
 
   seccionTitulo: {
     fontSize: 21,
@@ -344,8 +340,6 @@ const styles = StyleSheet.create({
     gap: 12,
     marginBottom: 20,
   },
-
-  /* PRIMER BOTON */
 
   botonPrincipal: {
     flex: 1.5,
@@ -401,9 +395,6 @@ const styles = StyleSheet.create({
     color: "#003366",
     marginTop: 5,
   },
-
-  /* SEGUNDO Y TERCER BOTON */
-
   botonSimple: {
     flex: 1,
     backgroundColor: "#FFFFFF",
@@ -447,9 +438,6 @@ const styles = StyleSheet.create({
     color: "#003366",
     marginTop: 5,
   },
-
-  /* DESTACADO */
-
   destacado: {
     backgroundColor: "#E8F0F8",
     borderRadius: 22,
@@ -490,7 +478,7 @@ const styles = StyleSheet.create({
     lineHeight: 19,
   },
 
-  /* PIE */
+
 
   footer: {
     textAlign: "center",
