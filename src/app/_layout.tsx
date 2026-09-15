@@ -1,18 +1,33 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { Stack } from 'expo-router';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+export default function RootLayout() {
 
-SplashScreen.preventAutoHideAsync();
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+
+    <Stack>
+
+      <Stack.Screen
+        name="index"
+        options={{
+          title: 'Foro CESMAG',
+        }}
+      />
+
+      <Stack.Screen
+        name="menu"
+        options={{
+          title: 'Menú del foro',
+        }}
+      />
+
+      <Stack.Screen
+        name="contacto"
+        options={{
+          title: 'Contacto',
+        }}
+      />
+
+    </Stack>
+
   );
 }
