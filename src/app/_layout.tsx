@@ -27,6 +27,27 @@ export default function RootLayout() {
         }}
       />
 
+      <Stack.Screen
+        name="formulario"
+        options={{
+          title: 'Publicar una idea',
+        }}
+      />
+
+      <Stack.Screen
+        name="resultado"
+        options={{
+          title: 'Idea publicada',
+        }}
+      />
+
+      <Stack.Screen
+        name="registros"
+        options={{
+          title: 'Ideas de la comunidad',
+        }}
+      />
+
     </Stack>
 
   );

@@ -83,7 +83,7 @@ export default function Inicio() {
       <View style={styles.resumen}>
 
         <View style={styles.resumenItem}>
-          <Text style={styles.resumenNumero}>3</Text>
+          <Text style={styles.resumenNumero}>4</Text>
           <Text style={styles.resumenTexto}>Opciones</Text>
         </View>
 
@@ -167,6 +167,15 @@ export default function Inicio() {
       </View>
 
       
+            <View style={styles.verIdeasContainer}>
+        <OpcionMenu
+          icono="💡"
+          titulo="Ideas de la comunidad"
+          descripcion="Consulta las ideas que han publicado otros estudiantes."
+          onPress={() => router.push("/registros")}
+        />
+      </View>
+
       <View style={styles.destacado}>
 
         <View style={styles.destacadoIcono}>
@@ -338,6 +347,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "stretch",
     gap: 12,
+    marginBottom: 20,
+  },
+
+  verIdeasContainer: {
     marginBottom: 20,
   },
 
