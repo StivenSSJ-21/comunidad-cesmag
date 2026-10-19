@@ -1,54 +1,45 @@
-import { Stack } from 'expo-router';
+import { Stack } from "expo-router";
+import { ActivityIndicator, View } from "react-native";
 
-export default function RootLayout() {
+import { AuthProvider, useAuth } from "../context/AuthContext";
+
+function RootNavigator() {
+  const { session, cargando } = useAuth();
+
+  if (cargando) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#F5F7FA",
+        }}
+      >
+        <ActivityIndicator size="large" color="#003366" />
+      </View>
+    );
+  }
 
   return (
+    <Stack screenOptions={{ headerShown: false }}>
+      {/* Sin sesión: solo Login y Registro */}
+      <Stack.Protected guard={!session}>
+        <Stack.Screen name="(auth)" />
+      </Stack.Protected>
 
-    <Stack>
-
-      <Stack.Screen
-        name="index"
-        options={{
-          title: 'Foro CESMAG',
-        }}
-      />
-
-      <Stack.Screen
-        name="menu"
-        options={{
-          title: 'Menú del foro',
-        }}
-      />
-
-      <Stack.Screen
-        name="contacto"
-        options={{
-          title: 'Contacto',
-        }}
-      />
-
-      <Stack.Screen
-        name="formulario"
-        options={{
-          title: 'Publicar una idea',
-        }}
-      />
-
-      <Stack.Screen
-        name="resultado"
-        options={{
-          title: 'Idea publicada',
-        }}
-      />
-
-      <Stack.Screen
-        name="registros"
-        options={{
-          title: 'Ideas de la comunidad',
-        }}
-      />
-
+      {/* Con sesión: toda la Comunidad CESMAG */}
+      <Stack.Protected guard={!!session}>
+        <Stack.Screen name="(app)" />
+      </Stack.Protected>
     </Stack>
+  );
+}
 
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <RootNavigator />
+    </AuthProvider>
   );
 }

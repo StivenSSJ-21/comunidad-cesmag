@@ -8,6 +8,8 @@ import {
   View,
 } from "react-native";
 
+import { supabase } from "../../lib/supabase";
+
 function OpcionMenu({
   icono,
   titulo,
@@ -37,6 +39,14 @@ function OpcionMenu({
 
 export default function Inicio() {
   const router = useRouter();
+
+  const cerrarSesion = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -196,6 +206,10 @@ export default function Inicio() {
         </View>
 
       </View>
+
+      <Pressable style={styles.botonCerrar} onPress={cerrarSesion}>
+        <Text style={styles.textoCerrar}>Cerrar sesión</Text>
+      </Pressable>
 
       <Text style={styles.footer}>
         Universidad CESMAG · Comunidad Estudiantil
@@ -492,6 +506,19 @@ const styles = StyleSheet.create({
   },
 
 
+
+  botonCerrar: {
+    backgroundColor: "#B42318",
+    padding: 14,
+    borderRadius: 14,
+    alignItems: "center",
+    marginTop: 20,
+  },
+
+  textoCerrar: {
+    color: "#FFFFFF",
+    fontWeight: "bold",
+  },
 
   footer: {
     textAlign: "center",

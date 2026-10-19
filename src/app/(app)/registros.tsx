@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 
-import { supabase } from "../lib/supabase";
+import { supabase } from "../../lib/supabase";
 
 type Registro = {
   id: number;
