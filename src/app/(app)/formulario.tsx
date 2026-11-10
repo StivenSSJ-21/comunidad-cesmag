@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -12,13 +12,19 @@ import {
 
 import { supabase } from "../../lib/supabase";
 
-const CATEGORIAS = [
-  "Académica",
-  "Cultural",
-  "Deportiva",
-  "Tecnología",
-  "Bienestar",
-  "Otra",
+type CategoriaCatalogo = {
+  codigo: string;
+  nombre: string;
+  color: string;
+};
+
+// Respaldo por si no se pueden cargar las categorías desde Supabase
+const CATEGORIAS_RESPALDO: CategoriaCatalogo[] = [
+  { codigo: "r-1", nombre: "Académico", color: "#3B82F6" },
+  { codigo: "r-2", nombre: "Cultura", color: "#EC4899" },
+  { codigo: "r-3", nombre: "Deportes", color: "#F97316" },
+  { codigo: "r-4", nombre: "Tecnología", color: "#06B6D4" },
+  { codigo: "r-5", nombre: "Bienestar universitario", color: "#EF4444" },
 ];
 
 export default function Formulario() {
@@ -32,6 +38,33 @@ export default function Formulario() {
   const [categoriaElegida, setCategoriaElegida] = useState("");
   const [otraCategoria, setOtraCategoria] = useState("");
   const [guardando, setGuardando] = useState(false);
+
+  const [categorias, setCategorias] = useState<CategoriaCatalogo[]>([]);
+  const [cargandoCategorias, setCargandoCategorias] = useState(true);
+
+  // Cargar categorías desde la tabla Catalago
+  useEffect(() => {
+    const cargarCategorias = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("Catalago")
+          .select("codigo,nombre,color")
+          .eq("activo", true)
+          .order("orden", { ascending: true });
+
+        if (error) throw error;
+
+        setCategorias(data && data.length > 0 ? data : CATEGORIAS_RESPALDO);
+      } catch (error) {
+        console.log("Error cargando categorías:", error);
+        setCategorias(CATEGORIAS_RESPALDO);
+      } finally {
+        setCargandoCategorias(false);
+      }
+    };
+
+    cargarCategorias();
+  }, []);
 
   // Si elige "Otra", se usa lo que escriba en el campo de texto
   const categoria =
@@ -115,9 +148,7 @@ export default function Formulario() {
     >
       {/* TITULO */}
 
-      <Text style={styles.titulo}>
-        Publicar una idea
-      </Text>
+      <Text style={styles.titulo}>Publicar una idea</Text>
 
       <Text style={styles.subtitulo}>
         Comparte una idea con la comunidad CESMAG
@@ -126,7 +157,6 @@ export default function Formulario() {
       {/* FORMULARIO */}
 
       <View style={styles.formulario}>
-
         <Text style={styles.label}>Nombre</Text>
         <TextInput
           style={styles.input}
@@ -172,27 +202,59 @@ export default function Formulario() {
         />
 
         <Text style={styles.label}>Categoría de la idea</Text>
-        <View style={styles.chips}>
-          {CATEGORIAS.map((opcion) => {
-            const activo = categoriaElegida === opcion;
-            return (
-              <Pressable
-                key={opcion}
-                style={[styles.chip, activo && styles.chipActivo]}
-                onPress={() => setCategoriaElegida(opcion)}
+
+        {cargandoCategorias ? (
+          <ActivityIndicator
+            color="#003366"
+            style={{ marginBottom: 18, alignSelf: "flex-start" }}
+          />
+        ) : (
+          <View style={styles.chips}>
+            {categorias.map((cat) => {
+              const activo = categoriaElegida === cat.nombre;
+              const colorCat = cat.color || "#003366";
+              return (
+                <Pressable
+                  key={cat.codigo}
+                  style={[
+                    styles.chip,
+                    activo && { backgroundColor: colorCat, borderColor: colorCat },
+                  ]}
+                  onPress={() => setCategoriaElegida(cat.nombre)}
+                >
+                  <Text
+                    style={[styles.chipTexto, activo && styles.chipTextoActivo]}
+                  >
+                    {cat.nombre}
+                  </Text>
+                </Pressable>
+              );
+            })}
+
+            {/* Opción fija "Otra" al final */}
+            <Pressable
+              style={[
+                styles.chip,
+                categoriaElegida === "Otra" && styles.chipActivo,
+              ]}
+              onPress={() => setCategoriaElegida("Otra")}
+            >
+              <Text
+                style={[
+                  styles.chipTexto,
+                  categoriaElegida === "Otra" && styles.chipTextoActivo,
+                ]}
               >
-                <Text style={[styles.chipTexto, activo && styles.chipTextoActivo]}>
-                  {opcion}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
+                Otra
+              </Text>
+            </Pressable>
+          </View>
+        )}
 
         {categoriaElegida === "Otra" && (
           <TextInput
             style={styles.input}
-            placeholder="¿Cuál? Ej: Emprendimiento, Voluntariado..."
+            placeholder="¿Cuál? Ej: Medio ambiente, Arte..."
             value={otraCategoria}
             onChangeText={setOtraCategoria}
           />
@@ -209,15 +271,12 @@ export default function Formulario() {
             <Text style={styles.textoBoton}>Publicar idea</Text>
           )}
         </Pressable>
-
       </View>
-
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flexGrow: 1,
     backgroundColor: "#F5F7FA",
@@ -300,7 +359,7 @@ const styles = StyleSheet.create({
   },
 
   chipTextoActivo: {
-    color: "#FFD100",
+    color: "#FFFFFF",
     fontWeight: "bold",
   },
 
@@ -316,5 +375,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-
 });

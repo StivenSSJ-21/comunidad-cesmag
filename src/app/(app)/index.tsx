@@ -224,21 +224,21 @@ export default function Inicio() {
           icono="🗂️"
           titulo="Catálogo"
           descripcion="Explora las categorías del foro."
-          onPress={() => router.push("/catalogo")}
+          onPress={() => router.push("/Catalogo")}
         />
 
         <OpcionMenu
           icono="📷"
           titulo="Escáner"
           descripcion="Escanea un código para ver su información."
-          onPress={() => router.push("/escaner")}
+          onPress={() => router.push("/scanear")}
         />
 
         <OpcionMenu
           icono="📄"
           titulo="Detalles"
           descripcion="Consulta el detalle de un registro."
-          onPress={() => router.push("/detalles")}
+          onPress={() => router.push("/Detalle")}
         />
       </View>
 
@@ -300,6 +300,12 @@ const styles = StyleSheet.create({
   },
 
   
+  herramientasContainer: {
+    marginBottom: 20,
+    padding: 16,
+    borderRadius: 12,
+    backgroundColor: '#f5f5f5',
+  },
 
   saludoBox: {
     backgroundColor: "#FFFFFF",

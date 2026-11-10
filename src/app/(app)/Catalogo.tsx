@@ -1,12 +1,12 @@
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
-    ActivityIndicator,
-    FlatList,
-    Pressable,
-    StyleSheet,
-    Text,
-    View,
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 import { supabase } from "../../lib/supabase";
@@ -99,7 +99,7 @@ export default function Catalogo() {
           style={[styles.card, { borderLeftColor: item.color || "#003366" }]}
           onPress={() =>
             router.push({
-              pathname: "/detalles",
+              pathname: "/Detalle",
               params: { codigo: item.codigo },
             })
           }
